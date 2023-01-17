@@ -82,40 +82,32 @@ pnode GetNode2( int id,pnode head ){
 }
 
 
-int relax(pnodeD src,pnodeD dest, pedge e)
-{
-    
+int relax(pnodeD src,pnodeD dest, pedge e){
     int wEdge = e->weight;
     int wSrc = src->weight;
     int wDest = dest->weight;
-    if (wDest > wSrc + wEdge)
-    {
+    if (wDest > wSrc + wEdge){
         dest->weight = wSrc + wEdge;
-       // dest->parent = src;
+       
     }
 return dest->weight;
 }
 
-pnodeD RunDijkstra(pnode open, int src) 
-{
+pnodeD RunDijkstra(pnode open, int src) {
     pnodeD head = NULL;
     pnodeD *n = &head;
 
-    while (!(isEmpty(open))) 
-    {
+    while (!(isEmpty(open))) {
         (*n) = (pnodeD) malloc(sizeof(nodeD));
-        if ((*n) == NULL) 
-        {
+        if ((*n) == NULL) {
             exit(0);
         }
 
         (*n)->node = open;
-        if (open == GetNode2(src, open))
-        {
+        if (open == GetNode2(src, open)){
             (*n)->weight = 0;
         } 
-        else 
-        {
+        else {
             (*n)->weight = INFINITY;
         }
         (*n)->visit = 0;
@@ -128,8 +120,7 @@ pnodeD RunDijkstra(pnode open, int src)
 
 ////////////////////SHORTEST PASH/////////////////
 
-int shortest_Path(pnode head, int src, int dest) 
-{
+int shortest_Path(pnode head, int src, int dest){
     // GET SRC
     pnodeD dijkstraHead = RunDijkstra(head, src);
 
@@ -181,7 +172,6 @@ int shortest_Path(pnode head, int src, int dest)
 void permotion(int start ,int* arr, int k){
     int temp_w = 0;
     int min = 0; 
-    
     if (start +1 == k){
         for (int i = 0; i < k-1; ++i)  {
             min = shortest_Path(graph,arr[i], arr[i+1]);
@@ -198,18 +188,18 @@ void permotion(int start ,int* arr, int k){
     return;
     }
     for (int i = start; i < k; ++i) {
-        int* arrCopy = (int*)(calloc(k, sizeof(int)));
+        int* Copy = (int*)(calloc(k, sizeof(int)));
 
         for (int i = 0; i < k; ++i) {
-        arrCopy[i] = arr[i];
+        Copy[i] = arr[i];
         }
        
-        int temp = arrCopy[start];
-        arrCopy[start]= arr[i];
-        arrCopy[i] = temp;
+        int temp = Copy[start];
+        Copy[start]= arr[i];
+        Copy[i] = temp;
 
-        permotion(start + 1, arrCopy, k);
-        free(arrCopy);
+        permotion(start + 1, Copy, k);
+        free(Copy);
     }
 }
 

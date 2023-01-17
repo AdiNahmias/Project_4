@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -52,8 +51,6 @@ node* creat_graph(int v){
 
 //--------------------------------------------------
 
-
-
 pnode getNode(int id, pnode *head){
     pnode temp = *head;
     while (temp){
@@ -76,10 +73,8 @@ void add_adge(pnode *head, int start){
     temp = getNode(start,head);
     int des1 = 0;
     int weight2 = 0;
-    
     while(scanf("%d",&des1)!=0){
         if(scanf("%d",&weight2)!=0){
-        
             if(temp->edges == NULL){
             temp->edges = (pedge)malloc(sizeof(edge));
             if(temp->edges == NULL){
@@ -105,26 +100,6 @@ void add_adge(pnode *head, int start){
 }
 
 //--------------------------------------------------
-
-
-// void print_graph(pnode head){// for self debug
-//     pnode tempNode = head;
-//     while (tempNode != NULL)
-//     {
-//         printf("Node: %d {", tempNode->id);
-//         pedge tempEdge = tempNode->edges;
-//         while (tempEdge != NULL)
-//         {
-//             printf("dest: %d weight: %d ", tempEdge->endpoint->id,tempEdge->weight);
-//             tempEdge = tempEdge->next;
-//         }
-//         printf("}");
-//         tempNode = tempNode->next;
-//     }
-// }
-
-//--------------------------------------------------
-
 
 void freeGraph(pnode *head){
     if(head==NULL){
@@ -155,25 +130,21 @@ void swap_for_free(pnode free_node){
     free_edges(temp);
     free(temp);
 }
-
-
 //--------------------------------------------------
 
 void del_node(pnode *head, int del_v){
-    
+
+    if(head == NULL){
+        return;
+    }
     node *n = NULL;
     pnode temp = NULL;
-
     pnode N = NULL;
     N = getNode(del_v,head);
     pnode cur = *head;
-
     while (cur){
-
         if(cur != N && cur->edges!=NULL){
-
             if(cur->edges->endpoint == N){
-
                 if(cur->edges->next ==NULL){
                 pedge p1 = cur->edges;
                 cur->edges = NULL;
@@ -185,8 +156,6 @@ void del_node(pnode *head, int del_v){
                 }
           
             }else{ 
-
-
             pedge e = cur->edges;
             while (e->next!= NULL){   
                 if(e->next->endpoint == N){
@@ -196,11 +165,10 @@ void del_node(pnode *head, int del_v){
                     break;
                 }
                 e = e->next;
-            } 
-                
-            }
+            }      
         }
-        cur = cur->next; 
+    }
+    cur = cur->next; 
     }
     temp = *head;
     if(temp == N){
@@ -211,7 +179,6 @@ void del_node(pnode *head, int del_v){
     free(n);
       
     }else{
-
     while (temp->next != N){
     temp = temp->next;
     }
@@ -277,11 +244,8 @@ void add_node(pnode *head, int new_v){
                 in_graph->edges->next->weight = weight2;
                 }
             }
-        }
-                
-      
+        }      
     } else{
-
         pnode cur = *head;
         while (cur->next != NULL){
             cur = cur->next;
