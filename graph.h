@@ -17,12 +17,12 @@ typedef struct GRAPH_NODE_ {
     struct GRAPH_NODE_ *next;
 } node, *pnode;
 
-typedef struct Dijkstra {
+typedef struct NodeD {
     pnode node;
     int weight;
-    int tag;
-    struct Dijkstra *next;
-} dijkstra, *pdijkstra;
+    int visit;
+    struct NodeD *next;
+} nodeD, *pnodeD;
 
 
 node* creat_graph(int num_of_nodes);
@@ -46,6 +46,8 @@ void add_node(pnode *head);
 void del_edge(pnode *head,int n);
 
 int shortest_Path(pnode head,int src,int dest);
+
+int isEmpty(pnode p);
 
 int TSP(pnode head);
  

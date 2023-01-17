@@ -2,15 +2,33 @@
 #include <stdlib.h>
 #include "graph.h"
 
+
 int weight;
 int arrlenth;
 pnode graph;
+int mini = INFINITY;
+
 
 ////////////Dijkstra/////////////
 
-pdijkstra use_Dijkstra(pdijkstra head, int id) 
+
+int isEmpty(pnode p){
+    if(p==NULL){
+    return 1;
+    }
+    return 0;
+}
+
+int isEmpty_d(pnodeD p){
+    if(p==NULL){
+    return 1;
+    }
+    return 0;
+}
+
+pnodeD getD(pnodeD head, int id) 
 {
-    while (head != NULL) 
+    while (!(isEmpty_d(head))) 
     {
         if (head->node->id == id) {
             return head;
@@ -21,50 +39,78 @@ pdijkstra use_Dijkstra(pdijkstra head, int id)
     return NULL;
 }
 
-void del_Dijk(pdijkstra dijkstra) 
+
+pnodeD getD_wet(pnodeD head, int wet) 
+{
+    while (head != NULL) 
+    {
+        if(head->visit==0){
+            if (head->weight == wet) {
+                head->visit =1;
+                return head;
+            }
+        }
+        head = head->next;
+    }
+    return NULL;
+}
+
+
+
+void deleteD(pnodeD dijkstra) 
 {
     while (dijkstra != NULL)
     {
-        pdijkstra temp = dijkstra;
+        pnodeD temp = dijkstra;
         dijkstra = dijkstra->next;
         free(temp);
     }
 }
 
-pdijkstra min(pdijkstra head) 
-{
-    pdijkstra Node = NULL;
 
-    while (head != NULL) 
+
+pnode GetNode2( int id,pnode head ){
+    pnode cur =head;
+    while (!(isEmpty(cur)))
     {
-        if (!head->tag && head->weight < INFINITY && (Node == NULL || Node->weight < head->weight)) 
-        {
-            Node = head;
+        if(cur->id == id){
+            return cur;
         }
-        head = head->next;
+        cur = cur->next;
     }
-    if (Node != NULL) 
-    {
-        Node->tag = 1;
-    }
-    return Node;
+    return NULL;
 }
 
-pdijkstra RunDijkstra(pnode open, int src) 
-{
-    pdijkstra head = NULL;
-    pdijkstra *n = &head;
 
-    while (open != NULL) 
+int relax(pnodeD src,pnodeD dest, pedge e)
+{
+    
+    int wEdge = e->weight;
+    int wSrc = src->weight;
+    int wDest = dest->weight;
+    if (wDest > wSrc + wEdge)
     {
-        (*n) = (pdijkstra) malloc(sizeof(dijkstra));
+        dest->weight = wSrc + wEdge;
+       // dest->parent = src;
+    }
+return dest->weight;
+}
+
+pnodeD RunDijkstra(pnode open, int src) 
+{
+    pnodeD head = NULL;
+    pnodeD *n = &head;
+
+    while (!(isEmpty(open))) 
+    {
+        (*n) = (pnodeD) malloc(sizeof(nodeD));
         if ((*n) == NULL) 
         {
             exit(0);
         }
 
         (*n)->node = open;
-        if (open->id == src)
+        if (open == GetNode2(src, open))
         {
             (*n)->weight = 0;
         } 
@@ -72,7 +118,7 @@ pdijkstra RunDijkstra(pnode open, int src)
         {
             (*n)->weight = INFINITY;
         }
-        (*n)->tag = 0;
+        (*n)->visit = 0;
         (*n)->next = NULL;
         n = &((*n)->next);
         open = open->next;
@@ -84,36 +130,49 @@ pdijkstra RunDijkstra(pnode open, int src)
 
 int shortest_Path(pnode head, int src, int dest) 
 {
-    pdijkstra dijkstraHead = RunDijkstra(head, src);
-    pdijkstra temp = min(dijkstraHead);
+    // GET SRC
+    pnodeD dijkstraHead = RunDijkstra(head, src);
 
-    while (temp != NULL) 
+    pnodeD temp = getD_wet(dijkstraHead,0);
+
+
+     while (!(isEmpty_d(temp))) 
     {
         pedge E_ind = temp->node->edges;
 
         while (E_ind != NULL) 
         {
-            pdijkstra n = use_Dijkstra(dijkstraHead, E_ind->endpoint->id);
-
-            int res = temp->weight + E_ind->weight;
-            if (n->weight > res)
-            {
-                n->weight = res;
-            }
+            //faind dest
+           pnodeD n = getD(dijkstraHead, E_ind->endpoint->id);
+        
+            // apdayt the min 
+            int relax1 = relax(temp, n, E_ind);
+             if(relax1 < mini){
+                  mini = relax1;
+              }
             E_ind = E_ind->next;
+
         }
-        temp = min(dijkstraHead);
+
+        // find the node of min
+        temp = getD_wet(dijkstraHead ,mini);
+        //temp->visit=1;
+        mini = INFINITY; 
+        // temp = ..
+       // temp = min(dijkstraHead);
     }
-    int D = use_Dijkstra(dijkstraHead, dest)->weight;
+    int D = getD(dijkstraHead, dest)->weight;
 
     if (D == INFINITY)
     {
         D = -1;
     }
-    del_Dijk(dijkstraHead);
+   deleteD(dijkstraHead);
 
     return D;
 }
+
+
 
 /////////////////TSP////////////////
 
