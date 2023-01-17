@@ -2,13 +2,8 @@
 #include <stdlib.h>
 #include "graph.h"
 
-int weight;
-int arrlenth;
-pnode graph;
+
 int mini = INFINITY;
-
-
-////////////Dijkstra/////////////
 
 
 int isEmpty(pnode p){
@@ -125,7 +120,7 @@ pnodeD RunDijkstra(pnode open, int src)
     return head;
 }
 
-////////////////////SHORTEST PASH/////////////////
+
 
 int shortest_Path(pnode head, int src, int dest) 
 {
@@ -173,7 +168,11 @@ int shortest_Path(pnode head, int src, int dest)
 
 
 
-/////////////////TSP////////////////
+
+
+int weight;
+int len;
+pnode p_g;
 
 
 
@@ -183,7 +182,7 @@ void permotion(int start ,int* arr, int k){
     
     if (start +1 == k){
         for (int i = 0; i < k-1; ++i)  {
-            min = shortest_Path(graph,arr[i], arr[i+1]);
+            min = shortest_Path(p_g,arr[i], arr[i+1]);
             if (min != -1){
                 temp_w += min;
             }else{
@@ -217,8 +216,8 @@ void permotion(int start ,int* arr, int k){
 
 void TSP(pnode head, int k){
     weight = INFINITY;
-	arrlenth = -1;
-    graph = head;
+	len = -1;
+    p_g = head;
    
     int *arr = (int *) (calloc(k, sizeof(int)));
     int n = 0;

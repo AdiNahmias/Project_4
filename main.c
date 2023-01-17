@@ -4,24 +4,20 @@
 #include <stdlib.h>
 #include "graph.h"
 
-int main()
-{
+int main(){
     pnode temp = NULL;
     pnode *head = &temp;
-    char choise;
+    char prog;
     char cp;
     int v = 0;
-    //int src = 0;
     int k = 0;
     int new_v = 0;
     int start = 0;
     int del_v = 0;
 
-    while (scanf("%c", &choise) != EOF)
-    {
+    while (scanf("%c", &prog) != EOF){
  
-        if(choise == 'A')
-        {
+        if(prog == 'A'){
             scanf("%d", &v);
             *head = creat_graph(v);
             //creat_graph(v);
@@ -40,26 +36,23 @@ int main()
             }
             // print_graph(*head);
             
-            choise = cp;
+            prog = cp;
         }
 
-        if(choise == 'B')
-        {
+        if(prog == 'B'){
         scanf("%d", &new_v);
             add_node(head, new_v);
             // print_graph(*head);
             continue;
         }
-        if(choise == 'D')
-        {
+        if(prog == 'D'){
             
             scanf("%d",&del_v);
             del_node(head, del_v);
             // print_graph(*head);
             continue;
         }
-        if(choise == 'S')
-        {
+        if(prog == 'S'){
             // shortsPath(*head);
             int src = -1, dest = -1;
             scanf("%d %d", &src, &dest);
@@ -68,8 +61,7 @@ int main()
             printf("\n");
             continue;
         }
-        if(choise == 'T')
-        {
+        if(prog == 'T'){
             scanf("%d", &k);
             TSP(*head,k);
             continue;
