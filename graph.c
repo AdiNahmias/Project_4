@@ -160,7 +160,9 @@ void swap_for_free(pnode free_node){
 //--------------------------------------------------
 
 void del_node(pnode *head, int del_v){
-    node *p = NULL;
+    
+    node *n = NULL;
+    pnode temp = NULL;
 
     pnode N = NULL;
     N = getNode(del_v,head);
@@ -170,111 +172,73 @@ void del_node(pnode *head, int del_v){
 
         if(cur != N && cur->edges!=NULL){
 
-            if(cur->edges->endpoint != N){
-                pedge e = cur->edges;
-                    while (e->next!= NULL){   
-                        if(e->next->endpoint == N){
-                            pedge p1 = e->next;
-                            e->next = e->next->next;
-                            free(p1);
-                            break;
-                        }
-                        e = e->next;
-                    }           
-            }else{ 
+            if(cur->edges->endpoint == N){
+
                 if(cur->edges->next ==NULL){
-                    pedge p1 = cur->edges;
-                    cur->edges = NULL;
+                pedge p1 = cur->edges;
+                cur->edges = NULL;
+                free(p1);
+                }else{
+                pedge p1 = cur->edges;
+                cur->edges = p1->next;
+                free(p1);
+                }
+          
+            }else{ 
+
+
+            pedge e = cur->edges;
+            while (e->next!= NULL){   
+                if(e->next->endpoint == N){
+                    pedge p1 = e->next;
+                    e->next = e->next->next;
                     free(p1);
-                    }else{
-                    pedge p1 = cur->edges;
-                    cur->edges = p1->next;
-                    free(p1);
-                    }
+                    break;
+                }
+                e = e->next;
+            } 
+                
             }
         }
         cur = cur->next; 
     }
-
-    pnode tempNode = *head;
-    if(tempNode != N){
-        while (tempNode->next != N){
-        tempNode = tempNode->next;
-        }
-        //swap_for_free(tempNode->next);
-        p = tempNode->next;
-        tempNode->next=tempNode->next->next;
-        free_edges(p);
-        free(p);    
-    }else{
-
+    temp = *head;
+    if(temp == N){
     //swap_for_free(*head);
-    p = *head;
-    *head = p->next;
-    free_edges(p);
-    free(p);
-    }
-}
-
-
-
-void free_edges(pnode p){
-    if(p->edges==NULL) {
-        free(p->edges);
+    n = *head;
+    *head = n->next;
+    free_edges(n);
+    free(n);
+      
     }else{
-    pedge temp = p->edges;
-    while(temp){
-        pedge p1 = NULL;
-        p1 = temp;
-        temp = temp->next;
-        free(p1);
-        }  
+
+    while (temp->next != N){
+    temp = temp->next;
+    }
+    //swap_for_free(tempNode->next);
+    n = temp->next;
+    temp->next=temp->next->next;
+    free_edges(n);
+    free(n); 
+    
     }
 }
 
 //--------------------------------------------------
 
-// void del_edge(pnode *head,int n)
-// {
-//     pnode tempNode = *head;
-
-//     while (tempNode!= NULL)
-//     {
-//         if(tempNode->id != n && tempNode->edges!=NULL){
-
-//             if(tempNode->edges->endpoint->id !=n)
-//             {
-//                 pedge tempEdge = tempNode->edges;
-
-//                     while (tempEdge->next!= NULL)
-//                     {   
-//                         if(tempEdge->next->endpoint->id == n){
-//                             pedge p1 = tempEdge->next;
-//                             tempEdge->next=tempEdge->next->next;
-//                             free(p1);
-//                             break;
-//                         }
-//                         tempEdge = tempEdge->next;
-//                     }           
-//             }
-//             else
-//             { 
-//                 if(tempNode->edges->next ==NULL)
-//                     {
-//                     pedge p1 = tempNode->edges;
-//                     tempNode->edges = NULL;
-//                     free(p1);
-//                     }
-//                 else{
-//                     pedge p1 = tempNode->edges;
-//                     tempNode->edges = p1->next;
-//                     free(p1);
-//                     }
-//             }
-//         }
-//         tempNode = tempNode->next; 
-//     }
-// }
+void free_edges(pnode free_e){
+    if(free_e->edges==NULL) {
+        free(free_e->edges);
+    }else{
+    pedge e = free_e->edges;
+    while(e){
+        pedge p = NULL;
+        p = e;
+        e = e->next;
+        free(p);
+        }  
+    }
+}
 
 //--------------------------------------------------
 
