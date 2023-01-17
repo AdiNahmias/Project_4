@@ -153,33 +153,73 @@ void freeGraph(pnode *head)
     }
 }
 
-void del_node(pnode *head)
-{
-    int D = 0;
-    scanf("%d",&D);
+void del_node(pnode *head, int del_v){
 
-    del_edge(head,D);
+    if(head == NULL){
+        return;
+    }
 
-    pnode tempNode = *head;
-    node *p = NULL;
-    if(tempNode->id != D)
-    {
-        while (tempNode->next->id!=D)
-        {
-        tempNode = tempNode->next;
+
+    //del edges
+
+    pnode N = NULL;
+    N = getNode(del_v,head);
+
+    pnode cur = *head;
+    while (cur != NULL && cur->edges != NULL){
+        if(cur->edges->endpoint == N){
+            
+            if(cur->edges->next == NULL){
+                pedge p1 = cur->edges;
+                cur->edges = NULL;
+                free(p1);
+            }else{
+                pedge p1 = cur->edges;
+                cur->edges = p1->next;
+                free(p1);
+            }           
+        }else{ 
+            pedge e = cur->edges;
+            //chek all the adges destination if it is n
+            while (e->next){   
+                if(e->next->endpoint == N){
+                    e = e->next; 
+                }else{
+                    pedge p1 = e->next;
+                    e->next=e->next->next;
+                    free(p1);
+                    break;
+                    }
+                }  
+            }
+        cur = cur->next; 
+    }
+
+    //delete node
+
+    //if head the node that we want to delete 
+    pnode del_head = *head;
+    if(del_head-> id == del_v){
+        node *temp = *head;
+        *head = temp->next;
+        free_edges(temp);
+        free(temp);
+    }else{
+
+    pnode cur2 = *head;
+    if(cur2->id != del_v){
+
+        while (cur2->next->id != del_v){
+        cur2 = cur2->next;
         }
-        p = tempNode->next;
-        tempNode->next=tempNode->next->next;
-        free_edges(p);
-        free(p);    
-    }
-    else
-    {
-    p = *head;
-    *head = p->next;
-    free_edges(p);
-    free(p);
-    }
+        //cur -> next is the node that we want to remove
+        node *temp = cur2->next;
+        temp->next = cur2->next->next;
+        free_edges(temp);
+        free(temp); 
+        } 
+    }  
+   
 }
 
 void free_edges(pnode p)
