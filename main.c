@@ -13,7 +13,7 @@ int main()
     int v = 0;
     int src = 0;
     int k = 0;
-    int del_v = 0;
+    int new_v = 0;
 
     while (scanf("%c", &choise) != EOF)
     {
@@ -44,14 +44,14 @@ int main()
 
         if(choise == 'B')
         {
-            add_node(head);
+        scanf("%d", &new_v);
+            add_node(head, new_v);
             // print_graph(*head);
             continue;
         }
         if(choise == 'D')
         {
-            scanf("%d",&del_v);
-            del_node(head, del_v);
+            del_node(head);
             // print_graph(*head);
             continue;
         }

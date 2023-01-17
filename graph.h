@@ -37,11 +37,11 @@ void freeGraph(pnode *head);
 
 void print_graph(pnode head);
 
-void del_node(pnode *head, int del_v);
+void del_node(pnode *head);
 
 void free_edges(pnode p);
 
-void add_node(pnode *head);
+void add_node(pnode *head, int new_v);
 
 void del_edge(pnode *head,int n);
 

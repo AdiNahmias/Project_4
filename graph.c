@@ -153,73 +153,33 @@ void freeGraph(pnode *head)
     }
 }
 
-void del_node(pnode *head, int del_v){
+void del_node(pnode *head)
+{
+    int D = 0;
+    scanf("%d",&D);
 
-    if(head == NULL){
-        return;
-    }
+    del_edge(head,D);
 
-
-    //del edges
-
-    pnode N = NULL;
-    N = getNode(del_v,head);
-
-    pnode cur = *head;
-    while (cur != NULL && cur->edges != NULL){
-        if(cur->edges->endpoint == N){
-            
-            if(cur->edges->next == NULL){
-                pedge p1 = cur->edges;
-                cur->edges = NULL;
-                free(p1);
-            }else{
-                pedge p1 = cur->edges;
-                cur->edges = p1->next;
-                free(p1);
-            }           
-        }else{ 
-            pedge e = cur->edges;
-            //chek all the adges destination if it is n
-            while (e->next){   
-                if(e->next->endpoint == N){
-                    e = e->next; 
-                }else{
-                    pedge p1 = e->next;
-                    e->next=e->next->next;
-                    free(p1);
-                    break;
-                    }
-                }  
-            }
-        cur = cur->next; 
-    }
-
-    //delete node
-
-    //if head the node that we want to delete 
-    pnode del_head = *head;
-    if(del_head-> id == del_v){
-        node *temp = *head;
-        *head = temp->next;
-        free_edges(temp);
-        free(temp);
-    }else{
-
-    pnode cur2 = *head;
-    if(cur2->id != del_v){
-
-        while (cur2->next->id != del_v){
-        cur2 = cur2->next;
+    pnode tempNode = *head;
+    node *p = NULL;
+    if(tempNode->id != D)
+    {
+        while (tempNode->next->id!=D)
+        {
+        tempNode = tempNode->next;
         }
-        //cur -> next is the node that we want to remove
-        node *temp = cur2->next;
-        temp->next = cur2->next->next;
-        free_edges(temp);
-        free(temp); 
-        } 
-    }  
-   
+        p = tempNode->next;
+        tempNode->next=tempNode->next->next;
+        free_edges(p);
+        free(p);    
+    }
+    else
+    {
+    p = *head;
+    *head = p->next;
+    free_edges(p);
+    free(p);
+    }
 }
 
 void free_edges(pnode p)
@@ -283,47 +243,91 @@ void del_edge(pnode *head,int n)
     }
 }
 
-void add_node(pnode *head){
-    int src;
-    scanf("%d", &src);
-    int dest;
-    int w;
-    pnode temp = getNode(src,head);
-    if(temp == NULL){
-        pnode inGraph = *head;
-        while (inGraph->next != NULL){
-            inGraph = inGraph->next;
-        }
-        pnode newNode = (pnode)(malloc(sizeof (node)));
-        newNode->id = src;
-        newNode->edges = NULL;
-        newNode->next = NULL;
-        inGraph->next = newNode;
-        while (scanf("%d",&dest)!=0 && scanf("%d",&w)!=0){
-            if((dest >= 'A' && dest <= 'Z') || (w >= 'A' && w <= 'Z'))
-            {
-                break;
+void add_node(pnode *head, int new_v){
+    
+    pnode in_graph = NULL;
+    in_graph = getNode(new_v,head);
+    if(in_graph != NULL){
+        free_edges(in_graph);
+        in_graph->edges = NULL;
+
+        int des1 = 0;
+        int weight2 = 0;
+    
+        while (scanf("%d",&des1)!=0){
+           if(scanf("%d",&weight2)!=0){
+
+                if(in_graph->edges == NULL){
+                in_graph->edges = (pedge)malloc(sizeof(edge));
+                if(in_graph->edges == NULL){
+                    exit(1);
+                }
+                in_graph->edges->next =NULL;
+                in_graph->edges->weight = weight2;
+                in_graph->edges->endpoint = &(*(getNode(des1,head)));
+                }else{
+                while(in_graph->edges->next!=NULL){
+                    in_graph->edges = in_graph->edges->next;
+                }
+                in_graph->edges->next = (pedge)malloc(sizeof(edge));
+                if(in_graph->edges == NULL){
+                    exit(1);
+                }
+                in_graph->edges->next->next = NULL;
+                in_graph->edges->next->endpoint = &(*(getNode(des1,head)));
+                in_graph->edges->next->weight = weight2;
+                }
             }
-            if((dest >= 'a' && dest <= 'z') || (w >= 'a' && w <= 'z'))
-            {
-                break;
-            }
-            insert_edge(newNode,dest,w,head);
         }
+                
+      
     } else{
-        free_edges(temp);
-        // pedge tempEdge = temp->edges;
-        temp->edges = NULL;
-        while (scanf("%d",&dest)!=0 && scanf("%d",&w)!=0){
-            if((dest >= 'A' && dest <= 'Z') || (w >= 'A' && w <= 'Z'))
-            {
-                break;
-            }
-            if((dest >= 'a' && dest <= 'z') || (w >= 'a' && w <= 'z'))
-            {
-                break;
-            }
-            insert_edge(temp,dest,w,head);
+
+        pnode cur = *head;
+        while (cur->next != NULL){
+            cur = cur->next;
         }
+
+        pnode new_node = NULL;
+        pnode *n2 = &new_node;
+        *n2 = (pnode)(malloc(sizeof (node)));
+        if(new_node ==  NULL){
+            exit(1);
+        }
+        new_node->id = new_v;
+        new_node->edges = NULL;
+        new_node->next = NULL;
+        cur->next = new_node;
+
+        int des1 = 0;
+        int weight2 = 0;
+        
+        while (scanf("%d",&des1)!=0){   
+            if(scanf("%d",&weight2)!=0){
+
+                if(new_node->edges == NULL){
+                new_node->edges = (pedge)malloc(sizeof(edge));
+                if(new_node->edges == NULL){
+                    exit(1);
+                }
+                new_node->edges->next =NULL;
+                new_node->edges->weight = weight2;
+                new_node->edges->endpoint = &(*(getNode(des1,head)));
+                }else{
+                while(new_node->edges->next!=NULL){
+                    new_node->edges = new_node->edges->next;
+                }
+                new_node->edges->next = (pedge)malloc(sizeof(edge));
+                if(new_node->edges == NULL){
+                    exit(1);
+                }
+                new_node->edges->next->next = NULL;
+                new_node->edges->next->endpoint = &(*(getNode(des1,head)));
+                new_node->edges->next->weight = weight2;
+                }
+
+            }
+        }
+       
     }
 }
