@@ -161,7 +161,53 @@ void swap_for_free(pnode free_node){
 
 void del_node(pnode *head, int del_v){
     node *p = NULL;
-    del_edge(head,del_v);
+
+    pnode N = NULL;
+    N = getNode(del_v,head);
+    //del_edge(head,del_v);
+
+
+    pnode cur = *head;
+
+    while (cur){
+
+        if(cur != N && cur->edges!=NULL){
+
+            if(cur->edges->endpoint != N)
+            {
+                pedge tempEdge = cur->edges;
+
+                    while (tempEdge->next!= NULL)
+                    {   
+                        if(tempEdge->next->endpoint == N){
+                            pedge p1 = tempEdge->next;
+                            tempEdge->next=tempEdge->next->next;
+                            free(p1);
+                            break;
+                        }
+                        tempEdge = tempEdge->next;
+                    }           
+            }
+            else
+            { 
+                if(cur->edges->next ==NULL)
+                    {
+                    pedge p1 = cur->edges;
+                    cur->edges = NULL;
+                    free(p1);
+                    }
+                else{
+                    pedge p1 = cur->edges;
+                    cur->edges = p1->next;
+                    free(p1);
+                    }
+            }
+        }
+        cur = cur->next; 
+    }
+
+    
+
     pnode tempNode = *head;
     if(tempNode->id != del_v){
         while (tempNode->next->id!=del_v)
