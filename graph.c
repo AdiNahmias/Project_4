@@ -160,26 +160,26 @@ void swap_for_free(pnode free_node){
 //--------------------------------------------------
 
 void del_node(pnode *head, int del_v){
-    //node *p = NULL;
+    node *p = NULL;
     del_edge(head,del_v);
     pnode tempNode = *head;
-    if(tempNode->id != del_v)mak{
+    if(tempNode->id != del_v){
         while (tempNode->next->id!=del_v)
         {
         tempNode = tempNode->next;
         }
-        swap_for_free(tempNode->next);
-        // p = tempNode->next;
-        // tempNode->next=tempNode->next->next;
-        // free_edges(p);
-        // free(p);    
+        //swap_for_free(tempNode->next);
+        p = tempNode->next;
+        tempNode->next=tempNode->next->next;
+        free_edges(p);
+        free(p);    
     }else{
 
-    swap_for_free(*head);
-    // p = *head;
-    // *head = p->next;
-    // free_edges(p);
-    // free(p);
+    //swap_for_free(*head);
+    p = *head;
+    *head = p->next;
+    free_edges(p);
+    free(p);
     }
 }
 
