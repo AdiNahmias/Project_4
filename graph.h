@@ -31,7 +31,7 @@ void add_adge(pnode *head, int start);
 
 void freeGraph(pnode *head);
 
-void del_node(pnode *head);
+void del_node(pnode *head, int del_v);
 
 void free_edges(pnode p);
 

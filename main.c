@@ -15,6 +15,7 @@ int main()
     int k = 0;
     int new_v = 0;
     int start = 0;
+    int del_v = 0;
 
     while (scanf("%c", &choise) != EOF)
     {
@@ -51,7 +52,8 @@ int main()
         }
         if(choise == 'D')
         {
-            del_node(head);
+            scanf("%d",&del_v);
+            del_node(head, del_v);
             // print_graph(*head);
             continue;
         }
