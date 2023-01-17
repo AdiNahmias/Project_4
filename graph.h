@@ -25,9 +25,9 @@ typedef struct NodeD {
 } nodeD, *pnodeD;
 
 
-node* creat_graph(int num_of_nodes);
+node* creat_graph(int v);
 
-void add_adge(pnode *head,int src);
+void add_adge(pnode *head, int start);
 
 void insert_edge(pnode temp,int dest,int w,pnode *head);
 

@@ -4,43 +4,51 @@
 #include "graph.h"
 
 
-node * creat_graph(int num_of_nodes)
-{   
-    node *head = NULL;
-    pnode newNode, temp = NULL;
-    int i;
+static pnode temp = NULL;
+static pnode *head = &temp;
 
-    head = (pnode)malloc(sizeof(node));
+node* creat_graph(int v){
 
-    if(head == NULL)
-    {
-        exit(0);
-    }   
+    //delete the graph
+    freeGraph(head);
+    //create the first node
 
-    head->id = 0; 
-    head->next = NULL;
+    pnode head = NULL;
+    pnode *n = &head;
+    
+    *n = (pnode)malloc(sizeof(node));
+    if(head == NULL){
+        exit(1);
+    } 
+    int id = 0;
+    pnode temp = NULL; 
+    head->id = id; 
     head->edges = NULL;
-
+    head->next = NULL;
     temp = head;
 
-    for(i=1; i<num_of_nodes; i++)
-    {
-        newNode = (pnode)malloc(sizeof(node));
+    //create v-1
+    for(int i=1; i<v; i++){
+        
 
-        if(newNode == NULL)
-        {
-            // printf("Unable to allocate memory.");
-            break;
+        pnode new_node = NULL;
+        pnode *n2 = &new_node;
+
+        *n2 = (pnode)malloc(sizeof(node));
+        if(new_node == NULL){
+            exit(1);
         }
-        newNode->id = i; 
-        newNode->next = NULL;  
-        newNode->edges = NULL;
-
-        temp->next = newNode; 
+        new_node->id = i; 
+        new_node->next = NULL;  
+        new_node->edges = NULL;
+        temp->next = new_node; 
         temp = temp->next;    
     }
     return head;
 }
+
+
+
 
 pnode getNode(int id, pnode *head)
 {
@@ -63,25 +71,40 @@ pnode getNode(int id, pnode *head)
 void insert_node_cmd(pnode *head);
 
 
-void add_adge(pnode *head,int src){
+void add_adge(pnode *head, int start){
 
-    int dest;
-    // int count = 0;
-    int w;
-    pnode temp = getNode(src,head);
-    while(scanf("%d",&dest)!=0 && scanf("%d",&w)!=0)
-    {
-        if((dest >= 'A' && dest <= 'Z') || (w >= 'A' && w <= 'Z'))
-        {
-        break;
+    pnode temp = NULL;
+    temp = getNode(start,head);
+    int des1 = 0;
+    int weight2 = 0;
+    
+    while(scanf("%d",&des1)!=0){
+        if(scanf("%d",&weight2)!=0){
+        
+            if(temp->edges == NULL){
+            temp->edges = (pedge)malloc(sizeof(edge));
+            if(temp->edges == NULL){
+                exit(1);
+            }
+            temp->edges->next =NULL;
+            temp->edges->weight = weight2;
+            temp->edges->endpoint = &(*(getNode(des1,head)));
+            }else{
+            while(temp->edges->next!=NULL){
+                temp->edges = temp->edges->next;
+            }
+            temp->edges->next = (pedge)malloc(sizeof(edge));
+            if(temp->edges == NULL){
+                exit(1);
+            }
+            temp->edges->next->next = NULL;
+            temp->edges->next->endpoint = &(*(getNode(des1,head)));
+            temp->edges->next->weight = weight2;
+            }
         }
-        if((dest >= 'a' && dest <= 'z') || (w >= 'a' && w <= 'z'))
-        {
-        break;
-        }
-        insert_edge(temp,dest,w,head);
     }
 }
+
 
 void insert_edge(pnode temp,int dest,int w,pnode *head){
 

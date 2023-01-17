@@ -9,37 +9,37 @@ int main()
     pnode temp = NULL;
     pnode *head = &temp;
     char choise;
-    char ch;
+    char cp;
     int v = 0;
-    int src = 0;
+    //int src = 0;
     int k = 0;
     int new_v = 0;
+    int start = 0;
 
     while (scanf("%c", &choise) != EOF)
     {
  
         if(choise == 'A')
         {
-            freeGraph(head);
             scanf("%d", &v);
-            *head =  creat_graph(v);
+            *head = creat_graph(v);
+            //creat_graph(v);
             
-            scanf("%c", &ch);
+           int c = scanf("%c", &cp);
             
-            while(scanf("%c", &ch)!=0){
-                if(ch == 'n')
-                {
-                scanf("%d",&src);
-                add_adge(head,src);
-                }
-                else
-                {
-                    break;
-                }
+             while(c != 0){
+             c = scanf("%c", &cp);    
+                if(cp == 'n'){
+                scanf("%d",&start);
+                add_adge(head,start);   
+                }else{
+                break;
+                }    
+
             }
             // print_graph(*head);
             
-            choise = ch;
+            choise = cp;
         }
 
         if(choise == 'B')
