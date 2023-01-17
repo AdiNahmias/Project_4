@@ -19,6 +19,8 @@ int main(){
     while (scanf("%c", &prog) != EOF){
  
         if(prog == 'A'){
+
+            freeGraph(head);
             scanf("%d", &v);
             *head = creat_graph(v);
             //creat_graph(v);
