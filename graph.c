@@ -146,6 +146,15 @@ void freeGraph(pnode *head){
         free(temp);
     }
 }
+//--------------------------------------------------
+
+void swap_for_free(pnode free_node){
+    node *temp = NULL;
+    temp = free_node;
+    free_node = free_node->next;
+    free_edges(temp);
+    free(temp);
+}
 
 
 //--------------------------------------------------
@@ -156,24 +165,29 @@ void del_node(pnode *head, int del_v)
     del_edge(head,del_v);
 
     pnode tempNode = *head;
-    node *p = NULL;
+    
     if(tempNode->id != del_v)
     {
         while (tempNode->next->id!=del_v)
         {
         tempNode = tempNode->next;
         }
-        p = tempNode->next;
-        tempNode->next=tempNode->next->next;
-        free_edges(p);
-        free(p);    
+        swap_for_free(tempNode->next);
+
+
+        // p = tempNode->next;
+        // tempNode->next=tempNode->next->next;
+        // free_edges(p);
+        // free(p);    
     }
     else
     {
-    p = *head;
-    *head = p->next;
-    free_edges(p);
-    free(p);
+
+    swap_for_free(*head);
+    // p = *head;
+    // *head = p->next;
+    // free_edges(p);
+    // free(p);
     }
 }
 
