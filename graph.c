@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -50,6 +51,8 @@ node* creat_graph(int v){
 }
 
 //--------------------------------------------------
+
+
 
 pnode getNode(int id, pnode *head){
     pnode temp = *head;
@@ -128,6 +131,7 @@ void freeGraph(pnode *head){
         return;
     }
     pnode cur = *head;
+
     while (cur){
         pedge e = cur->edges;
         //free all the edges of cur
@@ -146,33 +150,30 @@ void freeGraph(pnode *head){
 
 //--------------------------------------------------
 
-void swap_for_free(pnode free_node){
-    node *temp = NULL;
-    temp = free_node;
-    free_node = free_node->next;
-    free_edges(temp);
-    free(temp);    
+void del_node(pnode *head, int del_v)
+{
 
-}
-
-//--------------------------------------------------
-
-void del_node(pnode *head, int del_v){
-    
     del_edge(head,del_v);
+
     pnode tempNode = *head;
-    //if head id not the node that we want to delete
-    if(tempNode->id != del_v){
-        while (tempNode->next->id != del_v){
+    node *p = NULL;
+    if(tempNode->id != del_v)
+    {
+        while (tempNode->next->id!=del_v)
+        {
         tempNode = tempNode->next;
         }
-
-        swap_for_free(tempNode->next);
-           
+        p = tempNode->next;
+        tempNode->next=tempNode->next->next;
+        free_edges(p);
+        free(p);    
     }
-    //if we want to remove head
-    else{
-    swap_for_free(*head);
+    else
+    {
+    p = *head;
+    *head = p->next;
+    free_edges(p);
+    free(p);
     }
 }
 
