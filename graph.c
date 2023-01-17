@@ -3,16 +3,16 @@
 #include <ctype.h>
 #include "graph.h"
 
-// static pnode temp = NULL;
-// static node *head = &temp;
+static pnode temp = NULL;
+static pnode *head = &temp;
 
 
-//--------------------------------------------------------------
+//--------------------------------------------------------------adibbjjj
 
 node* creat_graph(int v){
 
     //delete the graph
-    //freeGraph(head);
+    freeGraph(head);
     //create the first node
 
     pnode head = NULL;
