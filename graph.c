@@ -7,6 +7,8 @@
 static pnode temp = NULL;
 static pnode *head = &temp;
 
+//--------------------------------------------------
+
 node* creat_graph(int v){
 
     //delete the graph
@@ -47,6 +49,8 @@ node* creat_graph(int v){
     return head;
 }
 
+//--------------------------------------------------
+
 
 
 pnode getNode(int id, pnode *head){
@@ -62,27 +66,7 @@ pnode getNode(int id, pnode *head){
     return temp;
 }
 
-
-
-// pnode getNode(int id, pnode *head)
-// {
-//     pnode temp = *head;
-
-//     while (temp != NULL)
-//     {
-//         if (temp->id == id)
-//         {
-//             return temp;
-//         }
-//         else
-//         {
-//             temp = temp->next;
-//         }
-//     }
-//     return NULL;
-// }
-
-
+//--------------------------------------------------
 
 
 void add_adge(pnode *head, int start){
@@ -119,76 +103,51 @@ void add_adge(pnode *head, int start){
     }
 }
 
+//--------------------------------------------------
 
-void insert_edge(pnode temp,int dest,int w,pnode *head){
 
-    if(temp->edges == NULL)
-    {
-        temp->edges = (pedge)malloc(sizeof(edge));
-        if(temp->edges == NULL)
-        {
-            exit(0);
-        }
-        temp->edges->weight = w;
-        temp->edges->next =NULL;
-        node *D = getNode(dest,head);
-        temp->edges->endpoint = &(*D);
+// void print_graph(pnode head){// for self debug
+//     pnode tempNode = head;
+//     while (tempNode != NULL)
+//     {
+//         printf("Node: %d {", tempNode->id);
+//         pedge tempEdge = tempNode->edges;
+//         while (tempEdge != NULL)
+//         {
+//             printf("dest: %d weight: %d ", tempEdge->endpoint->id,tempEdge->weight);
+//             tempEdge = tempEdge->next;
+//         }
+//         printf("}");
+//         tempNode = tempNode->next;
+//     }
+// }
+
+//--------------------------------------------------
+
+
+void freeGraph(pnode *head){
+    if(head==NULL){
+        return;
     }
-    else{
-        pedge n = temp->edges;
+    pnode cur = *head;
 
-        while(n->next!=NULL)
-        {
-            n = n->next;
+    while (cur){
+        pedge e = cur->edges;
+        //free all the edges of cur
+        while (e) {
+            pedge e_cur_free = e;
+            e = e->next;
+            free(e_cur_free);
         }
-        n->next = (pedge)malloc(sizeof(edge));
-        if(n == NULL)
-        {
-            exit(0);
-        }
-        n->next->next = NULL;
-        n->next->weight = w;
-        node *D = getNode(dest,head);
-        n->next->endpoint = &(*D);
-    }
-}
-
-
-
-void print_graph(pnode head){// for self debug
-    pnode tempNode = head;
-    while (tempNode != NULL)
-    {
-        printf("Node: %d {", tempNode->id);
-        pedge tempEdge = tempNode->edges;
-        while (tempEdge != NULL)
-        {
-            printf("dest: %d weight: %d ", tempEdge->endpoint->id,tempEdge->weight);
-            tempEdge = tempEdge->next;
-        }
-        printf("}");
-        tempNode = tempNode->next;
+        //free all the nodes in the graph
+        node *temp = cur;
+        cur = cur->next;
+        free(temp);
     }
 }
 
-void freeGraph(pnode *head)
-{
-     pnode tempNode = *head;
 
-    while (tempNode != NULL)
-    {
-        pedge tempEdge = tempNode->edges;
-        while (tempEdge != NULL)
-        {
-            pedge tempEdgefree = tempEdge;
-            tempEdge = tempEdge->next;
-            free(tempEdgefree);
-        }
-        node *tempFree = tempNode;
-        tempNode = tempNode->next;
-        free(tempFree);
-    }
-}
+//--------------------------------------------------
 
 void del_node(pnode *head)
 {
@@ -279,6 +238,8 @@ void del_edge(pnode *head,int n)
         tempNode = tempNode->next; 
     }
 }
+
+//--------------------------------------------------
 
 void add_node(pnode *head, int new_v){
     
