@@ -25,7 +25,9 @@ typedef struct NodeD {
 } nodeD, *pnodeD;
 
 
-node* creat_graph(int v); 
+node* creat_graph(int v);
+
+void swap_for_free(pnode free_node);
 
 void add_adge(pnode *head, int start);
 
