@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
+#define INF 1000000
 
-
-int mini = INFINITY;
+int mini = INF;
 
 
 int isEmpty(pnode p){
@@ -105,7 +105,7 @@ pnodeD RunDijkstra(pnode open, int src) {
         } 
         else 
         {
-            (*n)->weight = INFINITY;
+            (*n)->weight = INF;
         }
         (*n)->visit = 0;
         (*n)->next = NULL;
@@ -145,13 +145,13 @@ int shortest_Path(pnode head, int src, int dest) {
         // find the node of min
         temp = getD_wet(dijkstraHead ,mini);
         //temp->visit=1;
-        mini = INFINITY; 
+        mini = INF; 
         // temp = ..
        // temp = min(dijkstraHead);
     }
     int D = getD(dijkstraHead, dest)->weight;
 
-    if (D == INFINITY)
+    if (D == INF)
     {
         D = -1;
     }
@@ -177,7 +177,7 @@ void permotion(int start ,int* arr, int k){
             if (min != -1){
                 temp_w += min;
             }else{
-                temp_w = INFINITY;
+                temp_w = INF;
                 return;
             }     
         }
@@ -206,7 +206,7 @@ void permotion(int start ,int* arr, int k){
 
 
 void TSP(pnode head, int k){
-    weight = INFINITY;
+    weight = INF;
 	len = -1;
     p_g = head;
    
@@ -225,7 +225,7 @@ void TSP(pnode head, int k){
     permotion(0,arrCopy,k);
     free(arr);
     free(arrCopy);
-    if (weight == INFINITY){
+    if (weight == INF){
         weight = -1;
     }
 

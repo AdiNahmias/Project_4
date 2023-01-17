@@ -1,6 +1,6 @@
 #ifndef GRAPH_
 #define GRAPH_
-#define INFINITY 999999999
+
 
 typedef struct GRAPH_NODE_ *pnode;
 
