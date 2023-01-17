@@ -52,6 +52,7 @@ int main()
         }
         if(choise == 'D')
         {
+            
             scanf("%d",&del_v);
             del_node(head, del_v);
             // print_graph(*head);
