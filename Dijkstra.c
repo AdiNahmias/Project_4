@@ -176,72 +176,71 @@ int shortest_Path(pnode head, int src, int dest)
 
 /////////////////TSP////////////////
 
-void input_Array(int* fromArr,int* toArr, int arrLenght) 
-{
-    for (int i = 0; i < arrLenght; ++i) 
-    {
-        toArr[i] = fromArr[i];
-    }
-}
 
-void swap(int* arr, int i, int j)
-{
-    int temp = arr[i];
-    arr[i]= arr[j];
-    arr[j] = temp;
-}
 
-void PermotitionOfArr(int* arr, int arrLength)
-{
-    int tempWeight = 0;
-    for (int i = 0; i < arrLength-1; ++i) 
-    {
-        int D = shortest_Path(graph,arr[i], arr[i+1]);
-        if (D == -1)
-        {
-            tempWeight = INFINITY;
-            return;
+void permotion(int start ,int* arr, int k){
+    int temp_w = 0;
+    int min = 0; 
+    
+    if (start +1 == k){
+        for (int i = 0; i < k-1; ++i)  {
+            min = shortest_Path(graph,arr[i], arr[i+1]);
+            if (min != -1){
+                temp_w += min;
+            }else{
+                temp_w = INFINITY;
+                return;
+            }     
         }
-        tempWeight += D;
+        if (temp_w < weight){
+            weight = temp_w;
+        }  
+    return;
     }
-    if (tempWeight < weight)
-    {
-        weight = tempWeight;
-    }
-}
+    for (int i = start; i < k; ++i) {
+        int* arrCopy = (int*)(calloc(k, sizeof(int)));
 
-void permotion( int start ,int* arr, int arrLength){
-    if (start == arrLength -1 ){
-        PermotitionOfArr(arr, arrLength);
-        return;
-    }
-    for (int i = start; i < arrLength; ++i) {
-        int* arrCopy = (int*)(calloc(arrLength, sizeof(int)));
-        input_Array(arr,arrCopy,arrLength);
-        swap(arrCopy,start, i);
-        permotion(start + 1, arrCopy, arrLength);
+        for (int i = 0; i < k; ++i) {
+        arrCopy[i] = arr[i];
+        }
+       
+        int temp = arrCopy[start];
+        arrCopy[start]= arr[i];
+        arrCopy[i] = temp;
+
+        permotion(start + 1, arrCopy, k);
         free(arrCopy);
     }
 }
 
-int TSP(pnode head)
-{
+
+
+
+void TSP(pnode head, int k){
     weight = INFINITY;
 	arrlenth = -1;
     graph = head;
-    scanf("%d", &arrlenth);
-    int *arr = (int *) (calloc(arrlenth, sizeof(int)));
-
-    for (int i = 0; i < arrlenth; i++) {
-        scanf("%d", &arr[i]);
+   
+    int *arr = (int *) (calloc(k, sizeof(int)));
+    int n = 0;
+    for (int i = 0; i < k; i++) {
+        scanf("%d", &n);
+        arr[i] = n;
     }
-    int *arrCopy = (int *) (calloc(arrlenth, sizeof(int)));
-    input_Array(arr,arrCopy,arrlenth);
-    permotion(0,arrCopy,arrlenth);
+    int *arrCopy = (int *) (calloc(k, sizeof(int)));
+
+    for (int i = 0; i < k; ++i) {
+        arrCopy[i] = arr[i];
+    }
+
+    permotion(0,arrCopy,k);
     free(arr);
     free(arrCopy);
     if (weight == INFINITY){
         weight = -1;
     }
-    return weight;
+
+    printf("TSP shortest path: %d ",weight);
+    printf("\n");
+   
 }

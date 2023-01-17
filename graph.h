@@ -49,7 +49,7 @@ int shortest_Path(pnode head,int src,int dest);
 
 int isEmpty(pnode p);
 
-int TSP(pnode head);
+void TSP(pnode head, int k);
  
 
 #endif

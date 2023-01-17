@@ -12,6 +12,7 @@ int main()
     char ch;
     int v = 0;
     int src = 0;
+    int k = 0;
 
     while (scanf("%c", &choise) != EOF)
     {
@@ -64,9 +65,8 @@ int main()
         }
         if(choise == 'T')
         {
-            int tsp = TSP(*head);
-            printf("TSP shortest path: %d ",tsp);
-            printf("\n");
+            scanf("%d", &k);
+            TSP(*head,k);
             continue;
         }
        
