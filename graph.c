@@ -161,10 +161,8 @@ void del_node(pnode *head, int del_v){
     
     del_edge(head,del_v);
     pnode tempNode = *head;
-    
     //if head id not the node that we want to delete
     if(tempNode->id != del_v){
-
         while (tempNode->next->id != del_v){
         tempNode = tempNode->next;
         }
