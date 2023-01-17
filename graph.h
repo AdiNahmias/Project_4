@@ -25,17 +25,11 @@ typedef struct NodeD {
 } nodeD, *pnodeD;
 
 
-node* creat_graph(int v);
+node* creat_graph(int v); 
 
 void add_adge(pnode *head, int start);
 
-void insert_edge(pnode temp,int dest,int w,pnode *head);
-
-pnode getNode(int id, pnode *head);
-
 void freeGraph(pnode *head);
-
-void print_graph(pnode head);
 
 void del_node(pnode *head);
 
@@ -46,8 +40,6 @@ void add_node(pnode *head, int new_v);
 void del_edge(pnode *head,int n);
 
 int shortest_Path(pnode head,int src,int dest);
-
-int isEmpty(pnode p);
 
 void TSP(pnode head, int k);
  

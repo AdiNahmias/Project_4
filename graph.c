@@ -49,26 +49,40 @@ node* creat_graph(int v){
 
 
 
-
-pnode getNode(int id, pnode *head)
-{
+pnode getNode(int id, pnode *head){
     pnode temp = *head;
-
-    while (temp != NULL)
-    {
-        if (temp->id == id)
-        {
+    while (temp){
+        if(temp -> id != id){
+        temp = temp->next; 
+        }else{
             return temp;
-        }
-        else
-        {
-            temp = temp->next;
-        }
+        }   
     }
-    return NULL;
+    temp = NULL;
+    return temp;
 }
 
-void insert_node_cmd(pnode *head);
+
+
+// pnode getNode(int id, pnode *head)
+// {
+//     pnode temp = *head;
+
+//     while (temp != NULL)
+//     {
+//         if (temp->id == id)
+//         {
+//             return temp;
+//         }
+//         else
+//         {
+//             temp = temp->next;
+//         }
+//     }
+//     return NULL;
+// }
+
+
 
 
 void add_adge(pnode *head, int start){
