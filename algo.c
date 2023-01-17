@@ -20,8 +20,7 @@ int isEmpty_d(pnodeD p){
     return 0;
 }
 
-pnodeD getD(pnodeD head, int id) 
-{
+pnodeD getD(pnodeD head, int id) {
     while (!(isEmpty_d(head))) 
     {
         if (head->node->id == id) {
@@ -34,8 +33,7 @@ pnodeD getD(pnodeD head, int id)
 }
 
 
-pnodeD getD_wet(pnodeD head, int wet) 
-{
+pnodeD getD_wet(pnodeD head, int wet) {
     while (head != NULL) 
     {
         if(head->visit==0){
@@ -51,8 +49,7 @@ pnodeD getD_wet(pnodeD head, int wet)
 
 
 
-void deleteD(pnodeD dijkstra) 
-{
+void deleteD(pnodeD dijkstra) {
     while (dijkstra != NULL)
     {
         pnodeD temp = dijkstra;
@@ -76,8 +73,7 @@ pnode GetNode2( int id,pnode head ){
 }
 
 
-int relax(pnodeD src,pnodeD dest, pedge e)
-{
+int relax(pnodeD src,pnodeD dest, pedge e){
     
     int wEdge = e->weight;
     int wSrc = src->weight;
@@ -90,8 +86,7 @@ int relax(pnodeD src,pnodeD dest, pedge e)
 return dest->weight;
 }
 
-pnodeD RunDijkstra(pnode open, int src) 
-{
+pnodeD RunDijkstra(pnode open, int src) {
     pnodeD head = NULL;
     pnodeD *n = &head;
 
@@ -122,8 +117,7 @@ pnodeD RunDijkstra(pnode open, int src)
 
 
 
-int shortest_Path(pnode head, int src, int dest) 
-{
+int shortest_Path(pnode head, int src, int dest) {
     // GET SRC
     pnodeD dijkstraHead = RunDijkstra(head, src);
 
@@ -162,19 +156,16 @@ int shortest_Path(pnode head, int src, int dest)
         D = -1;
     }
    deleteD(dijkstraHead);
+   
 
     return D;
 }
 
 
 
-
-
+pnode p_g;
 int weight;
 int len;
-pnode p_g;
-
-
 
 void permotion(int start ,int* arr, int k){
     int temp_w = 0;

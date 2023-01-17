@@ -14,6 +14,9 @@ int main(){
     int new_v = 0;
     int start = 0;
     int del_v = 0;
+    int short1 = 0;
+    int src = -1; 
+    int dest = -1;
 
     while (scanf("%c", &prog) != EOF){
  
@@ -54,10 +57,9 @@ int main(){
         }
         if(prog == 'S'){
             // shortsPath(*head);
-            int src = -1, dest = -1;
             scanf("%d %d", &src, &dest);
-            int dis = shortest_Path(*head, src, dest);
-            printf("Dijsktra shortest path: %d ",dis);
+            short1 = shortest_Path(*head, src, dest);
+            printf("Dijsktra shortest path: %d ",short1);
             printf("\n");
             continue;
         }
