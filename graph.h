@@ -1,7 +1,6 @@
 #ifndef GRAPH_
 #define GRAPH_
 
-
 typedef struct GRAPH_NODE_ *pnode;
 
 typedef struct edge_ {
@@ -25,25 +24,14 @@ typedef struct NodeD {
 } nodeD, *pnodeD;
 
 
-node* creat_graph(int v);
-
-void swap_for_free(pnode free_node);
-
-void add_adge(pnode *head, int start);
-
-void freeGraph(pnode *head);
-
-void del_node(pnode *head, int del_v);
-
-void free_edges(pnode p);
-
-void add_node(pnode *head, int new_v);
-
-void del_edge(pnode *head,int n);
-
-int shortest_Path(pnode head,int src,int dest);
-
-void TSP(pnode head, int k);
+node* build_graph_cmd(int v);
+void addEdge(pnode *head, int start);
+void deleteGraph_cmd(pnode *head);
+void delete_node_cmd(pnode *head, int del_v);
+void addNode(pnode *head, int new_v);
+void deleteEdge(pnode head);
+int shortsPath_cmd(pnode head,int src,int dest);
+void TSP_cmd(pnode head, int k);
  
 
 #endif

@@ -9,10 +9,10 @@ static pnode *head = &temp;
 
 //--------------------------------------------------
 
-node* creat_graph(int v){
+node* build_graph_cmd(int v){
 
     //delete the graph
-    freeGraph(head);
+    deleteGraph_cmd(head);
     //create the first node
 
     pnode head = NULL;
@@ -22,9 +22,8 @@ node* creat_graph(int v){
     if(head == NULL){
         exit(1);
     } 
-    int id = 0;
     pnode temp = NULL; 
-    head->id = id; 
+    head->id = 0; 
     head->edges = NULL;
     head->next = NULL;
     temp = head;
@@ -67,7 +66,7 @@ pnode getNode(int id, pnode *head){
 //--------------------------------------------------
 
 
-void add_adge(pnode *head, int start){
+void addEdge(pnode *head, int start){
 
     pnode temp = NULL;
     temp = getNode(start,head);
@@ -101,7 +100,7 @@ void add_adge(pnode *head, int start){
 
 //--------------------------------------------------
 
-void freeGraph(pnode *head){
+void deleteGraph_cmd(pnode *head){
     if(head==NULL){
         return;
     }
@@ -121,18 +120,38 @@ void freeGraph(pnode *head){
         free(temp);
     }
 }
+
+//--------------------------------------------------
+
+void deleteEdge(pnode free_e){
+    if(free_e->edges==NULL) {
+        free(free_e->edges);
+    }else{
+    pedge e = free_e->edges;
+    while(e){
+        pedge p = NULL;
+        p = e;
+        e = e->next;
+        free(p);
+        }  
+    }
+}
 //--------------------------------------------------
 
 void swap_for_free(pnode free_node){
     node *temp = NULL;
     temp = free_node;
     free_node = free_node->next;
-    free_edges(temp);
+    deleteEdge(temp);
     free(temp);
 }
+
+
+
+
 //--------------------------------------------------
 
-void del_node(pnode *head, int del_v){
+void delete_node_cmd(pnode *head, int del_v){
 
     if(head == NULL){
         return;
@@ -175,7 +194,7 @@ void del_node(pnode *head, int del_v){
     //swap_for_free(*head);
     n = *head;
     *head = n->next;
-    free_edges(n);
+    deleteEdge(n);
     free(n);
       
     }else{
@@ -185,36 +204,22 @@ void del_node(pnode *head, int del_v){
     //swap_for_free(tempNode->next);
     n = temp->next;
     temp->next=temp->next->next;
-    free_edges(n);
+    deleteEdge(n);
     free(n); 
     
     }
 }
 
-//--------------------------------------------------
 
-void free_edges(pnode free_e){
-    if(free_e->edges==NULL) {
-        free(free_e->edges);
-    }else{
-    pedge e = free_e->edges;
-    while(e){
-        pedge p = NULL;
-        p = e;
-        e = e->next;
-        free(p);
-        }  
-    }
-}
 
 //--------------------------------------------------
 
-void add_node(pnode *head, int new_v){
+void addNode(pnode *head, int new_v){
     
     pnode in_graph = NULL;
     in_graph = getNode(new_v,head);
     if(in_graph != NULL){
-        free_edges(in_graph);
+        deleteEdge(in_graph);
         in_graph->edges = NULL;
 
         int des1 = 0;

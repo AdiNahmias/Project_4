@@ -78,8 +78,7 @@ int relax(pnodeD src,pnodeD dest, pedge e){
     int wEdge = e->weight;
     int wSrc = src->weight;
     int wDest = dest->weight;
-    if (wDest > wSrc + wEdge)
-    {
+    if (wDest > wSrc + wEdge){
         dest->weight = wSrc + wEdge;
        // dest->parent = src;
     }
@@ -117,7 +116,7 @@ pnodeD RunDijkstra(pnode open, int src) {
 
 
 
-int shortest_Path(pnode head, int src, int dest) {
+int shortsPath_cmd(pnode head, int src, int dest) {
     // GET SRC
     pnodeD dijkstraHead = RunDijkstra(head, src);
 
@@ -173,7 +172,7 @@ void permotion(int start ,int* arr, int k){
     
     if (start +1 == k){
         for (int i = 0; i < k-1; ++i)  {
-            min = shortest_Path(p_g,arr[i], arr[i+1]);
+            min = shortsPath_cmd(p_g,arr[i], arr[i+1]);
             if (min != -1){
                 temp_w += min;
             }else{
@@ -205,7 +204,7 @@ void permotion(int start ,int* arr, int k){
 
 
 
-void TSP(pnode head, int k){
+void TSP_cmd(pnode head, int k){
     weight = INF;
 	len = -1;
     p_g = head;

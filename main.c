@@ -22,8 +22,7 @@ int main(){
  
         if(prog == 'A'){
             scanf("%d", &v);
-            *head = creat_graph(v);
-            //creat_graph(v);
+            *head = build_graph_cmd(v);
             
            int c = scanf("%c", &cp);
             
@@ -31,7 +30,7 @@ int main(){
              c = scanf("%c", &cp);    
                 if(cp == 'n'){
                 scanf("%d",&start);
-                add_adge(head,start);   
+                addEdge(head,start);   
                 }else{
                 break;
                 }    
@@ -44,32 +43,31 @@ int main(){
 
         if(prog == 'B'){
         scanf("%d", &new_v);
-            add_node(head, new_v);
+            addNode(head, new_v);
             // print_graph(*head);
             continue;
         }
         if(prog == 'D'){
             
             scanf("%d",&del_v);
-            del_node(head, del_v);
+            delete_node_cmd(head, del_v);
             // print_graph(*head);
             continue;
         }
         if(prog == 'S'){
-            // shortsPath(*head);
             scanf("%d %d", &src, &dest);
-            short1 = shortest_Path(*head, src, dest);
+            short1 = shortsPath_cmd(*head, src, dest);
             printf("Dijsktra shortest path: %d ",short1);
             printf("\n");
             continue;
         }
         if(prog == 'T'){
             scanf("%d", &k);
-            TSP(*head,k);
+            TSP_cmd(*head,k);
             continue;
         }
        
     
     }
-    freeGraph(head);
+    deleteGraph_cmd(head);
 }
