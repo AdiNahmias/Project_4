@@ -21,12 +21,10 @@ int isEmpty_d(pnodeD p){
 }
 
 pnodeD getD(pnodeD head, int id) {
-    while (!(isEmpty_d(head))) 
-    {
+    while (!(isEmpty_d(head))) {
         if (head->node->id == id) {
             return head;
         }
-
         head = head->next;
     }
     return NULL;
@@ -34,8 +32,7 @@ pnodeD getD(pnodeD head, int id) {
 
 
 pnodeD getD_wet(pnodeD head, int wet) {
-    while (head != NULL) 
-    {
+    while (!(isEmpty_d(head))) {
         if(head->visit==0){
             if (head->weight == wet) {
                 head->visit =1;
@@ -49,21 +46,19 @@ pnodeD getD_wet(pnodeD head, int wet) {
 
 
 
-void deleteD(pnodeD dijkstra) {
-    while (dijkstra != NULL)
-    {
-        pnodeD temp = dijkstra;
-        dijkstra = dijkstra->next;
+void deleteD(pnodeD p) {
+    while (!(isEmpty_d(p))){
+        pnodeD temp = p;
+        p = p->next;
         free(temp);
     }
 }
 
 
 
-pnode GetNode2( int id,pnode head ){
+pnode GetNode2(int id,pnode head ){
     pnode cur =head;
-    while (!(isEmpty(cur)))
-    {
+    while (!(isEmpty(cur))){
         if(cur->id == id){
             return cur;
         }
@@ -75,62 +70,52 @@ pnode GetNode2( int id,pnode head ){
 
 int relax(pnodeD src,pnodeD dest, pedge e){
     
-    int wEdge = e->weight;
-    int wSrc = src->weight;
-    int wDest = dest->weight;
-    if (wDest > wSrc + wEdge){
-        dest->weight = wSrc + wEdge;
-       // dest->parent = src;
+    int Wedge = e->weight;
+    int Wsrc = src->weight;
+    int Wdest = dest->weight;
+    if (Wdest > Wsrc + Wedge) {
+        dest->weight = Wsrc + Wedge;
     }
 return dest->weight;
 }
 
-pnodeD RunDijkstra(pnode open, int src) {
+pnodeD reset(pnode first, int src) {
     pnodeD head = NULL;
-    pnodeD *n = &head;
-
-    while (!(isEmpty(open))) 
-    {
-        (*n) = (pnodeD) malloc(sizeof(nodeD));
-        if ((*n) == NULL) 
-        {
+    pnodeD *d = &head;
+    while (!(isEmpty(first))) {
+        (*d) = (pnodeD) malloc(sizeof(nodeD));
+        if ((*d) == NULL) {
             exit(0);
         }
-
-        (*n)->node = open;
-        if (open == GetNode2(src, open))
+        
+        (*d)->node = first;
+        (*d)->visit = 0;
+        (*d)->next = NULL;
+ 
+        if (first == GetNode2(src, first))
         {
-            (*n)->weight = 0;
+            (*d)->weight = 0;
         } 
-        else 
-        {
-            (*n)->weight = INF;
+        else {
+            (*d)->weight = INF;
         }
-        (*n)->visit = 0;
-        (*n)->next = NULL;
-        n = &((*n)->next);
-        open = open->next;
+        d = &((*d)->next);
+        first = first->next;
     }
     return head;
 }
 
 
-
-int shortsPath_cmd(pnode head, int src, int dest) {
+int shortsPath_cmd(pnode head, int src, int des) {
     // GET SRC
-    pnodeD dijkstraHead = RunDijkstra(head, src);
-
-    pnodeD temp = getD_wet(dijkstraHead,0);
-
-
-     while (!(isEmpty_d(temp))) 
-    {
+    pnodeD headD = reset(head, src);
+    pnodeD temp = getD_wet(headD,0);
+     while (!(isEmpty_d(temp))) {
         pedge E_ind = temp->node->edges;
 
-        while (E_ind != NULL) 
-        {
+        while (E_ind) {
             //faind dest
-           pnodeD n = getD(dijkstraHead, E_ind->endpoint->id);
+           pnodeD n = getD(headD, E_ind->endpoint->id);
         
             // apdayt the min 
             int relax1 = relax(temp, n, E_ind);
@@ -142,22 +127,17 @@ int shortsPath_cmd(pnode head, int src, int dest) {
         }
 
         // find the node of min
-        temp = getD_wet(dijkstraHead ,mini);
-        //temp->visit=1;
+        temp = getD_wet(headD,mini);
         mini = INF; 
-        // temp = ..
-       // temp = min(dijkstraHead);
     }
-    int D = getD(dijkstraHead, dest)->weight;
-
-    if (D == INF)
-    {
-        D = -1;
+    int w = 0;
+    w = getD(headD, des)->weight;
+    if (w == INF){
+        w = -1;
     }
-   deleteD(dijkstraHead);
-   
+   deleteD(headD);
 
-    return D;
+    return w;
 }
 
 
