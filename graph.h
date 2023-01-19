@@ -9,7 +9,6 @@ typedef struct edge_ {
     struct edge_ *next;
 } edge, *pedge;
 
-
 typedef struct GRAPH_NODE_ {
     int id;
     pedge edges;
@@ -33,5 +32,4 @@ void deleteEdge(pnode head);
 int shortsPath_cmd(pnode head,int src,int dest);
 void TSP_cmd(pnode head, int k);
  
-
 #endif

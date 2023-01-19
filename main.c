@@ -54,6 +54,6 @@ int main(){
             TSP_cmd(*head,k);
         }    
     }
-    deleteGraph_cmd(head);
+    
     return 0;
 }
